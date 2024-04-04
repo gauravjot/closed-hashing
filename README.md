@@ -1,0 +1,1 @@
+# Closed Hashing Algorithm
