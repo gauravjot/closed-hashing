@@ -34,6 +34,8 @@ def is_prime(num):
 # Find hash table size by taking nearest prime number lower than N*1.7
 # Ideal hash table size is between 1.3x to 2.0x the size of the data set
 def hash_table_size(num):
+    if num == 1:
+        return 1
     num2 = int (num*1.7)
     lower = num2 - 1
     while True:
@@ -42,4 +44,4 @@ def hash_table_size(num):
         lower -= 1
 
 # Testing the hash_table_size function:
-# print(hash_table_size(11))
+print(hash_table_size(8))
