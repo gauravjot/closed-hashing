@@ -4,9 +4,11 @@
 # University of the Fraser Valley
 # April 9, 2024
 
+# Remove dashes from phone number
 def remove_dashes(phone_number):
     return phone_number.replace('-', '')
 
+# Read file with phone numbers
 def read_file(path):
     phone_numbers = []
     with open(path, 'r') as file:
@@ -16,12 +18,7 @@ def read_file(path):
             phone_numbers.append(phone_number)
     return phone_numbers
 
-'''
-# Test functionality of file reader:
-phone_numbers = read_file("levi_phone_numbers.txt")
-print(phone_numbers)
-'''
-
+# Determine if a number is prime for use in hash table size
 def is_prime(num):
     if num <= 1:
         return False;
@@ -43,5 +40,7 @@ def hash_table_size(num):
             return lower
         lower -= 1
 
-# Testing the hash_table_size function:
-print(hash_table_size(8))
+# Hash function, returns key % table size to determine the index
+def hash_function(value, table_size):
+    return value % table_size
+
