@@ -92,12 +92,35 @@ def delete_from_table(hash_table, value):
             i += 1
             key = (key + i ** 2) % len(hash_table)  # Quadratic probing
 
+# Demo functions:
+
+# Turn phone numbers text file into array of integers
 phone_numbers = read_phone_numbers('levi_phone_numbers.txt')
+
+# Initialize 'empty' hash table
 hash_table = ['None'] * hash_table_size(len(phone_numbers))
-insert_into_table(hash_table, phone_numbers[0])
-insert_into_table(hash_table, phone_numbers[1])
+
+# Insert phone numbers into hash table
+for x in range(len(phone_numbers)):
+    insert_into_table(hash_table, phone_numbers[x])
+
+# Display filled hash table
+print('Hash table created:')
+print(hash_table, '\n')
+
+# Search for a specific phone number
+print('Search for number:', phone_numbers[8])
+location = search_in_table(hash_table, phone_numbers[8])
+print('Number is at index:', location, '\n')
+
+# Delete this number from the hash table
+print('Delete number:', phone_numbers[8])
+print('Original hash table:')
 print(hash_table)
-print(search_in_table(hash_table, phone_numbers[1]))
-print(hash_table)
-print(delete_from_table(hash_table, phone_numbers[1]))
-print(hash_table)
+delete = delete_from_table(hash_table, phone_numbers[8])
+if delete == True:
+    print ('Deletion successful!')
+    print(hash_table)
+else:
+    print('Deletion unsuccessful.')
+
