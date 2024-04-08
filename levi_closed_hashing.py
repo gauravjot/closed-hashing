@@ -59,6 +59,7 @@ def insert_into_table(hash_table, value):
             i += 1
             key = (key + i**2) % len(hash_table) # Quadratic probing
 
+# Function to search for index of certain value
 def search_in_table(hash_table, value):
     key = hash_function(value, len(hash_table))
     i = 0
@@ -67,14 +68,15 @@ def search_in_table(hash_table, value):
         if hash_table[key] == value: # Return value if key location matches
             return key
 
-        else: # If values do not match, probe for correct value
+        elif hash_table[key] != value: # If values do not match, probe for correct value
             i += 1
-            key = (key + i ** 2) % len(hash_table) # Quadratic probing
+            key = (key + i ** 2) % len(hash_table)  # Quadratic probing
 
+        else: # If value is not found, return false
+            return False
 
 phone_numbers = read_phone_numbers('levi_phone_numbers.txt')
 hash_table = ['None'] * hash_table_size(len(phone_numbers))
 insert_into_table(hash_table, phone_numbers[0])
-insert_into_table(hash_table, phone_numbers[1])
 print(hash_table)
 print(search_in_table(hash_table, 6043454407)) # Should be at index 2
