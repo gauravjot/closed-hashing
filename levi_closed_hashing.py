@@ -51,20 +51,30 @@ def insert_into_table(hash_table, value):
     i = 0
 
     while True:
-        # Insert into hash table if spot is vacant
-        if hash_table[key] == 'None':
+        if hash_table[key] == 'None': # Insert into hash table if spot is vacant
             hash_table[key] = value
             break;
-        else:
-            # If collision, then probe for vacant location
+
+        else: # If collision, then probe for vacant location
             i += 1
             key = (key + i**2) % len(hash_table) # Quadratic probing
+
+def search_in_table(hash_table, value):
+    key = hash_function(value, len(hash_table))
+    i = 0
+
+    while True:
+        if hash_table[key] == value: # Return value if key location matches
+            return key
+
+        else: # If values do not match, probe for correct value
+            i += 1
+            key = (key + i ** 2) % len(hash_table) # Quadratic probing
+
 
 phone_numbers = read_phone_numbers('levi_phone_numbers.txt')
 hash_table = ['None'] * hash_table_size(len(phone_numbers))
 insert_into_table(hash_table, phone_numbers[0])
 insert_into_table(hash_table, phone_numbers[1])
-insert_into_table(hash_table, phone_numbers[2])
-insert_into_table(hash_table, phone_numbers[3])
-insert_into_table(hash_table, phone_numbers[4])
 print(hash_table)
+print(search_in_table(hash_table, 6043454407)) # Should be at index 2
