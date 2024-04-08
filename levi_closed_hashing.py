@@ -53,7 +53,7 @@ def insert_into_table(hash_table, value):
     while True:
         if hash_table[key] == 'None': # Insert into hash table if spot is vacant
             hash_table[key] = value
-            break;
+            return True
 
         else: # If collision, then probe for vacant location
             i += 1
@@ -68,15 +68,36 @@ def search_in_table(hash_table, value):
         if hash_table[key] == value: # Return value if key location matches
             return key
 
-        elif hash_table[key] != value: # If values do not match, probe for correct value
+        elif hash_table[key] == 'None': # Value does not exist, return false
+            return False
+
+        else: # Probe for correct value
             i += 1
             key = (key + i ** 2) % len(hash_table)  # Quadratic probing
 
-        else: # If value is not found, return false
+# Function to delete an element from the hash table
+def delete_from_table(hash_table, value):
+    key = hash_function(value, len(hash_table))
+    i = 0
+
+    while True:
+        if hash_table[key] == value: # Replace value with 'None' if key location matches
+            hash_table[key] = 'None'
+            return True
+
+        elif hash_table[key] == 'None': # Value does not exist, return false
             return False
+
+        else: # Value does not match, probe for correct value
+            i += 1
+            key = (key + i ** 2) % len(hash_table)  # Quadratic probing
 
 phone_numbers = read_phone_numbers('levi_phone_numbers.txt')
 hash_table = ['None'] * hash_table_size(len(phone_numbers))
 insert_into_table(hash_table, phone_numbers[0])
+insert_into_table(hash_table, phone_numbers[1])
 print(hash_table)
-print(search_in_table(hash_table, 6043454407)) # Should be at index 2
+print(search_in_table(hash_table, phone_numbers[1]))
+print(hash_table)
+print(delete_from_table(hash_table, phone_numbers[1]))
+print(hash_table)
