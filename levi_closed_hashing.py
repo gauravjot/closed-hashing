@@ -9,13 +9,13 @@ def remove_dashes(phone_number):
     return phone_number.replace('-', '')
 
 # Read file with phone numbers
-def read_file(path):
+def read_phone_numbers(path):
     phone_numbers = []
     with open(path, 'r') as file:
         for line in file:
             phone_number = line.strip()
             phone_number = remove_dashes(phone_number)
-            phone_numbers.append(phone_number)
+            phone_numbers.append(int(phone_number))
     return phone_numbers
 
 # Determine if a number is prime for use in hash table size
@@ -44,3 +44,27 @@ def hash_table_size(num):
 def hash_function(value, table_size):
     return value % table_size
 
+# Function to insert value into hash table
+# Empty array will be initialized with 'None' for all elements
+def insert_into_table(hash_table, value):
+    key = hash_function(value, len(hash_table))
+    i = 0
+
+    while True:
+        # Insert into hash table if spot is vacant
+        if hash_table[key] == 'None':
+            hash_table[key] = value
+            break;
+        else:
+            # If collision, then probe for vacant location
+            i += 1
+            key = (key + i**2) % len(hash_table) # Quadratic probing
+
+phone_numbers = read_phone_numbers('levi_phone_numbers.txt')
+hash_table = ['None'] * hash_table_size(len(phone_numbers))
+insert_into_table(hash_table, phone_numbers[0])
+insert_into_table(hash_table, phone_numbers[1])
+insert_into_table(hash_table, phone_numbers[2])
+insert_into_table(hash_table, phone_numbers[3])
+insert_into_table(hash_table, phone_numbers[4])
+print(hash_table)
