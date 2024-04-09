@@ -29,6 +29,10 @@ class LinearProbing:
         self.table = [None] * table_size
         self.DEL_SYMBOL = chr(0)  # DEL_SYMBOL is used to mark deleted elements
 
+        if self.DEBUG:
+            print(f"Input Array: \t{input_arr}")
+            print(f"Hash Table Size: {table_size}")
+
         # Generate hash table
         self._hash()
 

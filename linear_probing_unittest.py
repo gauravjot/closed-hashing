@@ -3,6 +3,9 @@ import unittest
 from linear_probing import LinearProbing
 
 
+# To run the tests, simply run this file `python linear_probing_unittest.py`
+
+
 class TestLinearProbing(unittest.TestCase):
 
     def test_same_size_arr(self):
