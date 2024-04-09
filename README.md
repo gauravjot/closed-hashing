@@ -8,7 +8,7 @@ To use linear probing implemented in this codebase, you need to create a new ins
 from linear_probing import LinearProbing
 
 input_arr = [4, 14, 19, 9004, 33]
-hash_table_size = 5
+hash_table_size = 5 # Also for [ h(K) = K mod hash_table_size ]
 
 # Start with preset input data
 linear_probing = LinearProbing(table_size=hash_table_size, input_arr=input_arr)
