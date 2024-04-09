@@ -14,20 +14,25 @@ class LinearProbing:
     """ Does linear probing on an integer array.
 
     Args:
-        input_arr (list): List of integers
-        table_size (int): The size of hash table. Also the mod factor for hash function.
+        input_arr (list):   List of integers
+        table_size (int):   The size of hash table. Also the mod factor for hash function.
+                            Choose a value that you think will best fit the data.
 
     Usage:
         linear_probing = LinearProbing(input_arr, mod_factor).hash()
     """
 
-    def __init__(self, input_arr, table_size) -> None:
-        self.DEL_SYMBOL = chr(0)  # DEL_SYMBOL is used to mark deleted elements
+    def __init__(self, input_arr, table_size, debug=False) -> None:
+        self.DEBUG = debug
         self.input_arr = input_arr
         self.table_size = table_size
         self.table = [None] * table_size
+        self.DEL_SYMBOL = chr(0)  # DEL_SYMBOL is used to mark deleted elements
 
-    def insert(self, key, debug=False):
+        # Generate hash table
+        self._hash()
+
+    def insert(self, key):
         """
         Insert the key into the hash table.
         If the position is occupied, move to next position.
@@ -39,11 +44,11 @@ class LinearProbing:
         if self.table[pos] == None:
             self.table[pos] = key
         else:
-            if debug:
+            if self.DEBUG:
                 print(
                     f"Key {key}. Collision at {pos}. Moving to next position.", end=" ")
             start_pos = self._find_next_position(pos)
-            if debug:
+            if self.DEBUG:
                 print(f"Probing at {start_pos}")
             while start_pos != pos:
                 # Insert the key if the position is None or DEL_SYMBOL
@@ -51,19 +56,19 @@ class LinearProbing:
                     self.table[start_pos] = key
                     break
                 # otherwise move to next position
-                if debug:
+                if self.DEBUG:
                     print(
                         f"Key {key}. Collision at {start_pos}. Moving to next position.", end=" ")
                 start_pos = self._find_next_position(start_pos)
-                if debug:
+                if self.DEBUG:
                     print(f"Probing at {start_pos}")
         # Show debug information if debug is True
-        if debug:
+        if self.DEBUG:
             heading = True if self.table.count(
                 None) == self.table_size - 1 else False
             self.print(self.table_size, self.table, show_heading=heading)
 
-    def search(self, key, debug=False):
+    def search(self, key):
         """
         Search for the key in the hash table.
         If the key is not found, return -1.
@@ -103,7 +108,7 @@ class LinearProbing:
             self.table[pos] = self.DEL_SYMBOL
         return pos
 
-    def print(self, size, hash_table, show_heading=True):
+    def print(self, size=None, hash_table=None, show_heading=True):
         """Helper for debugging. Print the hash table in a friendly format.
 
         Args:
@@ -111,6 +116,9 @@ class LinearProbing:
             hash_table (list): Hash table
             show_heading (bool, optional): Defaults to True. Show heading.
         """
+        if hash_table is None:
+            hash_table = self.table
+            size = self.table_size
         # Format for str.format()
         # Read https://docs.python.org/3/library/string.html#format-specification-mini-language
         row_format = "|{:^6}" * size
@@ -131,13 +139,12 @@ class LinearProbing:
     def get_table(self):
         return self.table
 
-    def hash(self, debug=False):
+    def _hash(self):
         # Clear the hash table
         self.table = [None] * self.table_size
         # Insert the keys into the hash table
         for key in self.input_arr:
-            self.insert(key, debug=debug)
-        return self
+            self.insert(key)
 
     def _hash_function(self, key):
         return key % self.table_size
@@ -154,7 +161,7 @@ class LinearProbing:
 if __name__ == "__main__":
     input_arr = [15, 12, 54, 23, 45, 63, 82, 11]
     mod_factor = 7
-    linear_probing = LinearProbing(input_arr, mod_factor).hash(debug=True)
+    linear_probing = LinearProbing(input_arr, mod_factor, debug=True)
     table = linear_probing.get_table()
 
     # Search for keys
@@ -168,4 +175,4 @@ if __name__ == "__main__":
     linear_probing.print(mod_factor, table)
 
     # Search for deleted key
-    print(f"Search 63: {linear_probing.search(63)}")
+    print(f"Search 23: {linear_probing.search(23)}")
