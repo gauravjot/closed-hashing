@@ -22,7 +22,7 @@ class LinearProbing:
         linear_probing = LinearProbing(input_arr, mod_factor).hash()
     """
 
-    def __init__(self, input_arr, table_size, debug=False) -> None:
+    def __init__(self, table_size, input_arr=[], debug=False) -> None:
         self.DEBUG = debug
         self.input_arr = input_arr
         self.table_size = table_size
@@ -164,8 +164,8 @@ class LinearProbing:
 
 if __name__ == "__main__":
     input_arr = [15, 12, 54, 23, 45, 63, 82, 11]
-    mod_factor = 7
-    linear_probing = LinearProbing(input_arr, mod_factor, debug=True)
+    hash_table_size = 7
+    linear_probing = LinearProbing(hash_table_size, input_arr, debug=True)
     table = linear_probing.get_table()
 
     # Search for keys
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     print(f"Delete 23: \t{linear_probing.delete(23)}")
 
     # Print the hash table to see deleted key
-    linear_probing.print(mod_factor, table)
+    linear_probing.print(hash_table_size, table)
 
     # Search for deleted key
     print(f"Search 23: {linear_probing.search(23)}")
