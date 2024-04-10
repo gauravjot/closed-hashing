@@ -1,10 +1,12 @@
 import time
 import unittest
 from linear_probing import LinearProbing
+from random import random
 
 
 # To run the tests, simply run this file `python linear_probing_unittest.py`
 
+# Time is measured for testing insertion tests
 
 class TestLinearProbing(unittest.TestCase):
 
@@ -97,6 +99,53 @@ class TestLinearProbing(unittest.TestCase):
         self.assertEqual(linear_probing.search(50), -1)
         self.assertEqual(linear_probing.search(89), 1)
         self.assertEqual(linear_probing.search(40), 2)
+
+    """ Testing:
+            Best case, Worst case, Average case scenarios
+    """
+    # Best case scenario
+
+    def test_large_arr_no_collisions(self):
+        print(f"\n\nTest {self.id()}")
+        input_arr = [x for x in range(10000)]
+        table_size = 131071
+        answer = input_arr + ([None] * (table_size - 10000))
+        # Test
+        start_time = time.time()
+        hash_table = LinearProbing(
+            input_arr=input_arr, table_size=table_size).get_table()
+        print("Time taken\t: {:.10f}s".format(time.time() - start_time))
+        self.assertEqual(hash_table, answer)
+
+    # Worst case scenario
+    # This test will take a long time to run
+    # Took
+    def test_large_arr_all_collisions(self):
+        print(f"\n\nTest {self.id()}")
+        input_arr = [5] * (10000)
+        table_size = 131071
+        answer = ([None] * (5)) + input_arr + \
+            ([None] * (table_size - 5 - 10000))
+        # Test
+        start_time = time.time()
+        hash_table = LinearProbing(
+            input_arr=input_arr, table_size=table_size).get_table()
+        print("Time taken\t: {:.10f}s".format(time.time() - start_time))
+        self.assertEqual(hash_table, answer)
+
+    # Average case scenario
+    def test_large_arr_some_collisions(self):
+        print(f"\n\nTest {self.id()}")
+        # Some randoms will round to the same number over 10000 times
+        input_arr = [round(random() * 5000) for _ in range(10000)]
+        table_size = 131071
+        # Test
+        start_time = time.time()
+        hash_table = LinearProbing(
+            input_arr=input_arr, table_size=table_size).get_table()
+        print("Time taken\t: {:.10f}s".format(time.time() - start_time))
+        # Answer is unknown at runtime, so this is only used for time testing
+        self.assertEqual(1, 1)
 
 
 if __name__ == "__main__":
