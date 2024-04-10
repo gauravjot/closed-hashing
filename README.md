@@ -42,3 +42,9 @@ python linear_probing_unitest.py
 ```python
 linear_probing = LinearProbing(input_arr, hash_table_size, debug=True)
 ```
+
+## Testing
+
+This repository runs tests on each commit. To see the test results, click on the `Actions` tab.
+
+<https://github.com/gauravjot/closed-hashing/actions>
