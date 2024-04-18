@@ -51,21 +51,22 @@ class LinearProbing:
             if self.DEBUG:
                 print(
                     f"Key {key}. Collision at {pos}. Moving to next position.", end=" ")
-            start_pos = self._find_next_position(pos)
+            i = 1
+            next_pos = self._hash_function(pos + i)
             if self.DEBUG:
-                print(f"Probing at {start_pos}")
-            while start_pos != pos:
+                print(f"Probing at {next_pos}")
+            while next_pos != pos:
                 # Insert the key if the position is None or DEL_SYMBOL
-                if self.table[start_pos] == None or self.table[start_pos] == self.DEL_SYMBOL:
-                    self.table[start_pos] = key
+                if self.table[next_pos] == None or self.table[next_pos] == self.DEL_SYMBOL:
+                    self.table[next_pos] = key
                     break
                 # otherwise move to next position
                 if self.DEBUG:
                     print(
-                        f"Key {key}. Collision at {start_pos}. Moving to next position.", end=" ")
-                start_pos = self._find_next_position(start_pos)
+                        f"Key {key}. Collision at {next_pos}. Moving to next position.", end=" ")
+                next_pos = self._hash_function(next_pos + i)
                 if self.DEBUG:
-                    print(f"Probing at {start_pos}")
+                    print(f"Probing at {next_pos}")
         # Show debug information if debug is True
         if self.DEBUG:
             heading = True if self.table.count(
@@ -89,11 +90,12 @@ class LinearProbing:
         elif self.table[pos] == key:
             return pos
         else:
-            start_pos = self._find_next_position(pos)
-            while start_pos != pos:
-                if self.table[start_pos] == key:
-                    return start_pos
-                start_pos = self._find_next_position(start_pos)
+            i = 1
+            next_pos = self._hash_function(pos + i)
+            while next_pos != pos:
+                if self.table[next_pos] == key:
+                    return next_pos
+                next_pos = self._hash_function(next_pos + i)
         return -1
 
     def delete(self, key):
@@ -149,14 +151,12 @@ class LinearProbing:
         # Insert the keys into the hash table
         for key in self.input_arr:
             self.insert(key)
+        if self.DEBUG:
+            print("\nFinal Hash Table:")
+            self.print(self.table_size, self.table)
 
     def _hash_function(self, key):
         return key % self.table_size
-
-    def _find_next_position(self, pos):
-        # Cyclic List
-        # Go to next position if it is not out-of-bounds; else go to start (0)
-        return pos + 1 if pos < self.table_size - 1 else 0
 
 
 # Quick Testing
@@ -164,7 +164,7 @@ class LinearProbing:
 
 if __name__ == "__main__":
     input_arr = [15, 12, 54, 23, 45, 63, 82, 11]
-    hash_table_size = 7
+    hash_table_size = 10
     linear_probing = LinearProbing(hash_table_size, input_arr, debug=True)
     table = linear_probing.get_table()
 
@@ -179,4 +179,4 @@ if __name__ == "__main__":
     linear_probing.print(hash_table_size, table)
 
     # Search for deleted key
-    print(f"Search 23: {linear_probing.search(23)}")
+    print(f"\nSearch 63: \t{linear_probing.search(63)}")
