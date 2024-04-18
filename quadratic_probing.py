@@ -61,6 +61,11 @@ def insert_into_table(table, value):
             print('Insertion successful at index', str(key)+'!')
             return True
 
+        elif table[key] == 'Delete_Value':  # Insert into hash table in previously deleted space
+            table[key] = value
+            print('Insertion successful at index', str(key) + '!')
+            return True
+
         else:  # If collision, then probe for vacant location
             failed_key = key
             i += 1
@@ -95,8 +100,8 @@ def delete_from_table(table, value):
     i = 0
 
     while True:
-        if table[key] == value:  # Replace value with 'None' if key location matches
-            table[key] = 'None'
+        if table[key] == value:  # Replace value with 'Delete_Value' if key location matches
+            table[key] = 'Delete_Value'
             print('Deletion successful at index', str(key) + '!')
             return True
 
